@@ -7,9 +7,10 @@ from keras.preprocessing.image import img_to_array
 from streamlit_webrtc import webrtc_streamer, VideoTransformerBase
 
 # load model
-emotion_dict = {0:'angry', 1 :'happy', 2: 'neutral', 3:'sad', 4: 'surprise'}
+exercise_dict = {0:'barbell biceps curl', 1 :'barbell row', 2: 'deadlift', 3:'jump and jacks', 4: 'lateral raise', 5: 'lunges', 6: 'overhead press', 7: 'push up', 8: 
+             'squat'}
 # load json and create model
-json_file = open('emotion_model1.json', 'r')
+json_file = open('exercise_model1.json', 'r')
 loaded_model_json = json_file.read()
 json_file.close()
 classifier = model_from_json(loaded_model_json)
@@ -36,7 +37,7 @@ class VideoTransformer(VideoTransformerBase):
                 roi = np.expand_dims(roi, axis=0)
                 prediction = classifier.predict(roi)[0]
                 maxindex = int(np.argmax(prediction))
-                finalout = emotion_dict[maxindex]
+                finalout = exercise_dict[maxindex]
                 output = str(finalout)
             label_position = (x, y)
             cv2.putText(img, output, label_position, cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 255, 0), 2)
